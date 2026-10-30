@@ -1,0 +1,6 @@
+# Workspace Split View bundle: the Client module owns the whole UI; the Host only
+# needs an activatable row so the bundle can be installed and listed.
+- insert:
+    - id: workspace-split
+      name: 'dsh-plugin-workspace-split'
+      config: {}

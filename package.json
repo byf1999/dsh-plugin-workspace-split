@@ -1,0 +1,81 @@
+{
+  "name": "dsh-plugin-workspace-split",
+  "version": "1.0.0",
+  "description": "Split view for DeepSeek Harness: watch several workspaces' live sessions side by side in a rows x columns grid, with an in-pane file preview and changes review.",
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "icon": "./icon.svg",
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md",
+    "README.zh.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "cordis",
+    "workspace",
+    "split-view",
+    "multi-pane",
+    "sessions",
+    "preview",
+    "diff"
+  ],
+  "author": "Your Name <you@example.com> (https://github.com/your-github-name)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-github-name/dsh-plugin-workspace-split.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-github-name/dsh-plugin-workspace-split/issues"
+  },
+  "homepage": "https://github.com/your-github-name/dsh-plugin-workspace-split#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "dsh": ">=0.2.1-rc.3"
+  },
+  "scripts": {
+    "check": "node scripts/release.mjs verify",
+    "market": "node scripts/release.mjs index",
+    "pack": "node scripts/release.mjs pack"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-api-remotes",
+        "@deepseek-ai/dsh-api-session-controller",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-chat",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-ui-session",
+        "@deepseek-ai/dsh-client-ui-sidebar",
+        "@deepseek-ai/dsh-client-ui-sidebar-right",
+        "@deepseek-ai/dsh-client-ui-workspace"
+      ]
+    }
+  }
+}

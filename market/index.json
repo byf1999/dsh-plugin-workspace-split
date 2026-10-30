@@ -1,0 +1,98 @@
+{
+  "format": 1,
+  "title": {
+    "en": "Workspace Split View plugin index",
+    "zh": "多工作区分屏视图插件索引"
+  },
+  "description": {
+    "en": "A plugin market index for the dsh-plugin-workspace-split Harness UI plugin.",
+    "zh": "dsh-plugin-workspace-split 多工作区分屏插件的市场索引。"
+  },
+  "metadata": {
+    "categories": {
+      "layout": {
+        "title": {
+          "en": "Layout",
+          "zh": "布局"
+        }
+      }
+    },
+    "labels": {
+      "workspace": {
+        "title": {
+          "en": "Workspace",
+          "zh": "工作区"
+        }
+      },
+      "sessions": {
+        "title": {
+          "en": "Sessions",
+          "zh": "会话"
+        }
+      },
+      "preview": {
+        "title": {
+          "en": "File preview",
+          "zh": "文件预览"
+        }
+      },
+      "diff": {
+        "title": {
+          "en": "Changes review",
+          "zh": "改动评审"
+        }
+      }
+    },
+    "sortKeys": {}
+  },
+  "plugins": [
+    {
+      "name": "dsh-plugin-workspace-split",
+      "title": {
+        "en": "Workspace Split View",
+        "zh": "多工作区分屏视图"
+      },
+      "description": {
+        "en": "Watch several workspaces' live sessions side by side in a configurable rows x columns grid.",
+        "zh": "在同一屏幕内按 行×列 网格同时查看多个工作区的实时会话。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByb2xlPSJpbWciIGFyaWEtbGFiZWxsZWRieT0idGl0bGUiPgogIDx0aXRsZSBpZD0idGl0bGUiPldvcmtzcGFjZSBTcGxpdCBWaWV3PC90aXRsZT4KICA8cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxNCIgZmlsbD0iIzRENkJGRSIvPgogIDxnIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiPgogICAgPHJlY3QgeD0iMTEiIHk9IjExIiB3aWR0aD0iNDIiIGhlaWdodD0iNDIiIHJ4PSI4Ii8+CiAgICA8cGF0aCBkPSJNMzIgMTF2NDJNMTEgMzJoNDIiLz4KICA8L2c+CiAgPHJlY3QgeD0iMTUiIHk9IjE1IiB3aWR0aD0iMTMiIGhlaWdodD0iMTMiIHJ4PSIzIiBmaWxsPSIjRkZGRkZGIiBvcGFjaXR5PSIwLjkiLz4KICA8cmVjdCB4PSIzNiIgeT0iMzYiIHdpZHRoPSIxMyIgaGVpZ2h0PSIxMyIgcng9IjMiIGZpbGw9IiNGRkZGRkYiIG9wYWNpdHk9IjAuOSIvPgo8L3N2Zz4K",
+      "author": "Your Name",
+      "homepage": "https://github.com/your-github-name/dsh-plugin-workspace-split#readme",
+      "repository": {
+        "url": "https://github.com/your-github-name/dsh-plugin-workspace-split"
+      },
+      "metadata": {
+        "category": "layout",
+        "keywords": [
+          "deepseek-harness",
+          "cordis",
+          "workspace",
+          "split-view",
+          "multi-pane",
+          "sessions",
+          "preview",
+          "diff"
+        ],
+        "labels": [
+          "workspace",
+          "sessions",
+          "preview",
+          "diff"
+        ]
+      },
+      "versions": [
+        {
+          "version": "1.0.0",
+          "publishTimestamp": 1793350433,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.1-rc.3"
+          }
+        }
+      ]
+    }
+  ]
+}
