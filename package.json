@@ -35,16 +35,16 @@
     "preview",
     "diff"
   ],
-  "author": "Your Name <you@example.com> (https://github.com/your-github-name)",
+  "author": "byf1999 <https://github.com/byf1999>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-github-name/dsh-plugin-workspace-split.git"
+    "url": "https://github.com/byf1999/dsh-plugin-workspace-split.git"
   },
   "bugs": {
-    "url": "https://github.com/your-github-name/dsh-plugin-workspace-split/issues"
+    "url": "https://github.com/byf1999/dsh-plugin-workspace-split/issues"
   },
-  "homepage": "https://github.com/your-github-name/dsh-plugin-workspace-split#readme",
+  "homepage": "https://github.com/byf1999/dsh-plugin-workspace-split#readme",
   "publishConfig": {
     "access": "public"
   },

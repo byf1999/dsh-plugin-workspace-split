@@ -1,3 +1,5 @@
+**English** | [简体中文](./README.zh.md)
+
 # Workspace Split View
 
 A [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) Web UI

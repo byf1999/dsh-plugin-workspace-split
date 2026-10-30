@@ -57,10 +57,10 @@
         "zh": "在同一屏幕内按 行×列 网格同时查看多个工作区的实时会话。"
       },
       "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByb2xlPSJpbWciIGFyaWEtbGFiZWxsZWRieT0idGl0bGUiPgogIDx0aXRsZSBpZD0idGl0bGUiPldvcmtzcGFjZSBTcGxpdCBWaWV3PC90aXRsZT4KICA8cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxNCIgZmlsbD0iIzRENkJGRSIvPgogIDxnIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiPgogICAgPHJlY3QgeD0iMTEiIHk9IjExIiB3aWR0aD0iNDIiIGhlaWdodD0iNDIiIHJ4PSI4Ii8+CiAgICA8cGF0aCBkPSJNMzIgMTF2NDJNMTEgMzJoNDIiLz4KICA8L2c+CiAgPHJlY3QgeD0iMTUiIHk9IjE1IiB3aWR0aD0iMTMiIGhlaWdodD0iMTMiIHJ4PSIzIiBmaWxsPSIjRkZGRkZGIiBvcGFjaXR5PSIwLjkiLz4KICA8cmVjdCB4PSIzNiIgeT0iMzYiIHdpZHRoPSIxMyIgaGVpZ2h0PSIxMyIgcng9IjMiIGZpbGw9IiNGRkZGRkYiIG9wYWNpdHk9IjAuOSIvPgo8L3N2Zz4K",
-      "author": "Your Name",
-      "homepage": "https://github.com/your-github-name/dsh-plugin-workspace-split#readme",
+      "author": "byf1999",
+      "homepage": "https://github.com/byf1999/dsh-plugin-workspace-split#readme",
       "repository": {
-        "url": "https://github.com/your-github-name/dsh-plugin-workspace-split"
+        "url": "https://github.com/byf1999/dsh-plugin-workspace-split"
       },
       "metadata": {
         "category": "layout",
@@ -84,7 +84,7 @@
       "versions": [
         {
           "version": "1.0.0",
-          "publishTimestamp": 1793350433,
+          "publishTimestamp": 1793352371,
           "source": {
             "type": "npm"
           },
