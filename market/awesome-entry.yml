@@ -1,0 +1,21 @@
+# Submission file for the community catalog `awesome-dsh-plugin`.
+#
+# Copy this file to that repository as:
+#   data/plugins/byf1999__dsh-plugin-workspace-split.yml
+# then open one pull request that adds only that file.
+#
+# Checklist the catalog's CI checks:
+#   - package.json declares dsh.bundle (this plugin does) and cordis.patch.yml sits next to it
+#   - the repository is at least one day old
+#   - the repository has the `dsh-plugin` topic
+#   - one YAML file per plugin, at most 3 entries per pull request
+#
+url: https://github.com/byf1999/dsh-plugin-workspace-split
+name: byf1999/dsh-plugin-workspace-split
+category: ui
+description:
+  en: 'Split view for the Web UI: tiles 1-3 columns x 1-3 rows of live sessions from several workspaces in one grid, with draggable dividers, sidebar-follow routing, an in-pane file preview and an in-pane changes review.'
+  zh: 'Web 界面里的多工作区分屏视图：用 1–3 列 × 1–3 行的网格同时显示多个工作区的实时会话，支持拖动分栏、侧边栏会话进入格子、格内文件预览与改动评审。'
+# Optional: a GitHub-hosted raster image (png/jpg/jpeg/webp, ~96px tile).
+# Without it, storefronts fall back to the owner's avatar.
+# icon: https://raw.githubusercontent.com/byf1999/dsh-plugin-workspace-split/master/assets/icon-180.png

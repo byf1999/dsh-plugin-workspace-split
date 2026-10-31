@@ -145,7 +145,8 @@ behaviour. Both docks are read-only and keep the conversation visible.
 
 ```bash
 npm run check    # syntax, manifest, locale parity, CSS usage, market index
-npm run market   # regenerate market/index.json (needs the repository fields filled in)
+npm run market   # regenerate market/index.json (npm source)
+npm run market -- --git --commit=<40-hex>   # …or point it at a Git commit instead
 npm run pack     # release gate + npm pack tarball in ./dist
 ```
 

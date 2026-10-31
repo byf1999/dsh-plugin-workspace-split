@@ -3,7 +3,9 @@
  * Release helper for dsh-plugin-workspace-split.
  *
  *   node scripts/release.mjs verify [--release]   checks before a commit / publish
- *   node scripts/release.mjs index [--timestamp]  regenerate market/index.json
+ *   node scripts/release.mjs index [--timestamp]  regenerate market/index.json (npm source)
+ *   node scripts/release.mjs index --git --commit=<40-hex> [--path=<dir>]
+ *                                                 regenerate it from a Git source instead
  *   node scripts/release.mjs pack                 release gate + `npm pack`
  *
  * `--release` adds the publish gates (no placeholder metadata, market index
@@ -478,6 +480,20 @@ function writeIndex() {
   const fromEnvironment = process.env.SOURCE_DATE_EPOCH === undefined ? Number.NaN : Number(process.env.SOURCE_DATE_EPOCH)
   const timestamp = Number.isSafeInteger(fromArgument) ? fromArgument : Number.isSafeInteger(fromEnvironment) ? fromEnvironment : Math.floor(Date.now() / 1000)
   const author = typeof pkg.author === 'string' ? pkg.author.replace(/\s*<[^>]*>.*$/, '').trim() : ''
+  const repositoryUrl = publishedRepositoryUrl(pkg)
+  const git = process.argv.includes('--git')
+  const commitArgument = process.argv.slice(3).find((argument) => argument.startsWith('--commit='))
+  const pathArgument = process.argv.slice(3).find((argument) => argument.startsWith('--path='))
+  let source = { type: 'npm' }
+  if (git) {
+    const commit = commitArgument === undefined ? '' : commitArgument.slice('--commit='.length).trim()
+    if (/^[0-9a-f]{40}$/.test(commit) === false) {
+      console.error('index --git needs --commit=<40-character hex commit>; run `git rev-parse HEAD` in the repository')
+      return 1
+    }
+    source = { type: 'git', url: repositoryUrl, commit }
+    if (pathArgument !== undefined) source.path = pathArgument.slice('--path='.length).replace(/^\/+/, '')
+  }
 
   const index = {
     format: 1,
@@ -519,7 +535,7 @@ function writeIndex() {
           {
             version: pkg.version,
             publishTimestamp: timestamp,
-            source: { type: 'npm' },
+            source,
             engines: { dsh: pkg.engines.dsh },
           },
         ],
@@ -530,6 +546,14 @@ function writeIndex() {
   mkdirSync(dirname(MARKET_INDEX), { recursive: true })
   writeFileSync(MARKET_INDEX, `${JSON.stringify(index, null, 2)}\n`, 'utf8')
   console.log(`wrote ${relative(MARKET_INDEX)} (${pkg.name}@${pkg.version}, timestamp ${timestamp})`)
+  if (source.type === 'git') {
+    const suffix = source.path === undefined ? '' : `&path:/${source.path}`
+    console.log(`git source:     ${source.url}#${source.commit}`)
+    console.log(`install target: git+${source.url}.git#${source.commit}${suffix}`)
+  } else {
+    console.log(`npm source:     ${pkg.name}@${pkg.version} (publish the package first)`)
+  }
+  return 0
 }
 
 /* ------------------------------------------------------------------- pack */
@@ -571,8 +595,8 @@ const release = process.argv.includes('--release')
 if (command === 'verify') {
   process.exitCode = verify({ release })
 } else if (command === 'index') {
-  writeIndex()
-  process.exitCode = verify({ release: false })
+  const written = writeIndex()
+  process.exitCode = written === 0 ? verify({ release: false }) : written
 } else if (command === 'pack') {
   process.exitCode = pack()
 } else {

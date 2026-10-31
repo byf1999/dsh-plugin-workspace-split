@@ -84,9 +84,11 @@
       "versions": [
         {
           "version": "1.0.0",
-          "publishTimestamp": 1793352371,
+          "publishTimestamp": 1793408601,
           "source": {
-            "type": "npm"
+            "type": "git",
+            "url": "https://github.com/byf1999/dsh-plugin-workspace-split",
+            "commit": "899ed77db041025a7de985ec6e02fc3f26e47f94"
           },
           "engines": {
             "dsh": ">=0.2.1-rc.3"

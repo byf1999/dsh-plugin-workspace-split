@@ -117,7 +117,8 @@ main[key=workspace-split]                 SplitView    （声明格子插槽）
 
 ```bash
 npm run check    # 语法、manifest、中英文键对齐、CSS 引用、市场索引
-npm run market   # 重新生成 market/index.json（需先填好仓库信息）
+npm run market   # 重新生成 market/index.json（npm 源）
+npm run market -- --git --commit=<40 位提交>   # 或改为指向某个 Git 提交
 npm run pack     # 发布检查 + 在 ./dist 打出 npm tarball
 ```
 

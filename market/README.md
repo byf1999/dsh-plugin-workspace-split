@@ -1,57 +1,135 @@
 # Plugin market assets
 
-This directory holds the [plugin market](https://deepseek-ai.github.io/deepseek-harness/)
+This directory holds the [plugin market](https://github.com/deepseek-ai/deepseek-harness)
 index for `dsh-plugin-workspace-split`.
 
-- `index.json` — the generated market index (format 1) that a Harness profile
-  registers under **Plugins → Discover**. It is produced by
+DSH's plugin market is **not a central upload service**: a market is a static JSON
+index (format 1) that a Harness profile registers as an *index source* under
+**Plugins → Discover**. Publishing therefore means:
+
+1. make the package installable — either a **Git commit** (no npm account needed)
+   or an **npm version**;
+2. host `market/index.json` over HTTPS;
+3. add that URL as an index source in Discover.
+
+- `index.json` — the generated market index. It is produced by
   `npm run market` and must match `package.json` (name, version, author,
   repository, homepage and `engines.dsh`).
 
 ## Generate the index
 
 ```bash
-npm run market                      # timestamp = now
-SOURCE_DATE_EPOCH=1750000000 npm run market   # reproducible timestamp
+# Git source (what this repository publishes; no npm account needed)
+node scripts/release.mjs index --git --commit="$(git rev-parse HEAD)"
+
+# npm source (after `npm publish`)
+npm run market
 ```
 
+Optional flags: `--timestamp=<unix seconds>` (or `SOURCE_DATE_EPOCH`) pins
+`publishTimestamp`; `--path=<dir>` adds a package directory for a monorepo.
 The script reads `package.json`, both `locale/*.json` metadata files and
 `icon.svg`, then inlines the icon as a `data:image/svg+xml;base64,…` URI, so the
 index is self-contained: hosting one JSON file is enough.
 
-## Publish the npm package
+## Publish from GitHub (git source)
 
-1. Fill in the placeholders in `package.json` (`author`, `repository`, `bugs`,
-   `homepage`). `npm run pack` refuses to build while they remain.
-2. Bump `version` (semver) and update `CHANGELOG.md`.
-3. Run `npm run market` so `index.json` names the new version.
-4. Run `npm run pack` — it runs the release gate, then writes the tarball to
-   `dist/` and prints its size and SHA-256.
-5. `npm publish dist/<tarball> --access public` (or `npm publish` from the
-   plugin root).
+This repository keeps the package at the repository root, so no `path` is
+needed.
+
+```bash
+# 1. push the plugin itself
+git add -A && git commit -m "release 1.0.0" && git push
+
+# 2. point the index at the pushed commit
+node scripts/release.mjs index --git --commit="$(git rev-parse HEAD)"
+
+# 3. commit and push the index
+git add market/index.json && git commit -m "market: index for 1.0.0" && git push
+```
+
+The index then contains:
+
+```json
+"source": {
+  "type": "git",
+  "url": "https://github.com/byf1999/dsh-plugin-workspace-split",
+  "commit": "<40-character commit>"
+}
+```
+
+and the profile installs
+`git+https://github.com/byf1999/dsh-plugin-workspace-split.git#<commit>`.
+A Git source installs exactly that commit, so bump `version`, commit, push and
+regenerate the index for every release.
+
+## Publish to npm (alternative)
+
+1. Fill in the real `author`, `repository`, `bugs`, `homepage` in
+   `package.json` (`npm run pack` refuses to build while placeholders remain).
+2. `npm login` and `npm publish --access public` (or
+   `npm publish dist/<tarball>` from `npm run pack`).
+3. Regenerate the index with the npm source and push it.
 
 ## Host the index
 
-`index.json` is a static file; serve it from any HTTPS location, for example
-`https://your-host.example/dsh-plugins/index.json`. Two shapes work:
+The index must be served over HTTPS **at its final URL**: the Host fetches it
+with the process `fetch` and refuses redirects. Two zero-setup options:
 
-- **npm source** (default, what `npm run market` writes): the index only names
-  `name` and `version`; the profile's plugin manager resolves them through npm
-  (`source.type: "npm"`). Publish to npm first, then point the index at it.
-- **git source**: hand-edit the version entry to
+- **raw GitHub** (works immediately, no Pages configuration):
+  `https://raw.githubusercontent.com/byf1999/dsh-plugin-workspace-split/master/market/index.json`
+  (use the branch you actually pushed — this repository uses `master`).
+- **GitHub Pages**: enable *Settings → Pages → Deploy from a branch*, then use
+  `https://byf1999.github.io/dsh-plugin-workspace-split/market/index.json`.
 
-  ```json
-  "source": { "type": "git", "url": "https://github.com/your-github-name/dsh-plugin-workspace-split", "commit": "<40-hex-commit>" }
-  ```
+A hosted icon (instead of the inlined one) must be same-origin or `https:`; the
+inlined icon avoids that question entirely.
 
-  and keep the index's `repository` URL pointing at the same public repository.
-  The profile installs `git+<url>.git#<commit>`.
+## Add the index to Harness
 
-Then add the index URL in the Harness Web UI (**Plugins → Discover → index
-sources**) or ask the agent to configure it. Market index format 1 is validated
-by `@deepseek-ai/dsh-plugin-market-index`; `npm run check` re-validates the
-essential rules locally (required localized fields, declared category/label ids,
-icon size, version source, timestamp bounds).
+1. Open **Plugins → Discover** (the Discover tab mounts when the
+   `@deepseek-ai/dsh-experimental-plugin-market-bundle` bundle is enabled).
+2. With no source configured, press **Add index source**; afterwards use the
+   market menu → **Manage index sources…**.
+3. Paste the index URL from above and save. The market is read immediately;
+   the read is cached for 10 minutes (the toolbar refresh button re-reads it).
+4. Find **Workspace Split View / 多工作区分屏视图**, open its page, press
+   **Install**, confirm the trust prompt, then restart DeepSeek Harness.
+
+Anyone else can install it the same way by adding your index URL — that is what
+"publishing to the plugin market" means for DSH today. A central or community
+catalog, if you want the plugin listed there too, is a pull request against that
+catalog's index repository; DSH itself only reads the sources a user configures.
+
+## Publish to the community market (recommended)
+
+The public markets most profiles already use — the **DSH Plugin Market**
+(`realguan/dsh-plugin-market`) and the catalog index served by
+`dsh-plugin-catalog` — are generated from the curated list
+[`awesome-dsh-plugin`](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin).
+Listing there is the real "upload to the plugin market" step; it needs no npm
+account.
+
+1. Add the `dsh-plugin` topic to the GitHub repository.
+2. In `awesome-dsh-plugin`, open one pull request adding a single file named
+   `data/plugins/byf1999__dsh-plugin-workspace-split.yml`; copy
+   [`awesome-entry.yml`](./awesome-entry.yml) for its content.
+3. Push fixes to the same branch if CI asks for them (the CI checks
+   `dsh.bundle`, repository age ≥ 1 day, formatting, and the `dsh-plugin`
+   topic).
+4. After the merge the catalog website regenerates, and
+   `realguan/dsh-plugin-market` rebuilds its DSH index daily (03:17 UTC), so the
+   plugin appears in Discover for everyone using that market — the GitHub Pages
+   address within ~10 minutes, the jsDelivr address within ~12 hours.
+
+Optional extras the catalog reads from this repository:
+
+- `screenshots.json` beside `package.json` (1–8 repository-relative image paths)
+  gives the plugin a screenshot carousel in storefronts such as dsh-market.
+- Publishing to npm links the package to the entry and adds a download figure;
+  the published `repository` field must point back at the listed repository.
+- A raster `icon:` tile (GitHub-hosted png/jpg/jpeg/webp, ~96px) overrides the
+  fallback avatar; the inlined SVG in `market/index.json` is unrelated to it.
 
 ## Release checklist
 
@@ -59,8 +137,9 @@ icon size, version source, timestamp bounds).
 - [ ] `version` bumped and `CHANGELOG.md` updated
 - [ ] `npm run check` passes (syntax, manifest, locale parity, CSS, address
       parsers, market index)
-- [ ] `npm run market` regenerated `index.json` for the new version
-- [ ] `npm run pack` passes the release gate and its tarball is inspected
-      (`tar -tzf dist/*.tgz` — no `scripts/`, `market/` or development files)
-- [ ] `npm publish` succeeded and the index is served over HTTPS
-- [ ] a fresh profile installs from the index and opens the split view
+- [ ] plugin commit pushed, then `index --git --commit="$(git rev-parse HEAD)"`
+      (or `npm run market` after an npm publish)
+- [ ] the regenerated `market/index.json` is committed and pushed, and its URL
+      returns HTTP 200 without a redirect
+- [ ] a fresh profile adds the index URL, shows the entry, installs it and the
+      split view opens after a restart
